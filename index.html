@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laba 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border: 2px solid #000;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .settings {
+            margin-top: 20px;
+        }
+
+        .settings label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .settings input {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button id="move-up">Вище</button>
+        <button id="move-down">Нижче</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+        <div class="image-item" data-id="1">
+            <img src="images (1).jpg" alt="Placeholder 1">
+        </div>
+        <div class="image-item" data-id="2">
+            <img src="images.jpg" alt="Placeholder 2">
+        </div>
+        <div class="image-item" data-id="3">
+            <img src="OIG1.jpg" alt="Placeholder 3">
+        </div>
+    </div>
+
+    <div class="settings">
+        <h2>Зміни зображення</h2>
+        <label>
+            Ширина:
+            <input type="number" id="width" value="300">
+        </label>
+        <label>
+            Висота:
+            <input type="number" id="height" value="300">
+        </label>
+        <label>
+            Товщина рамки:
+            <input type="number" id="border" value="2">
+        </label>
+        <label>
+            Альтернативний текст:
+            <input type="text" id="alt-text" value="">
+        </label>
+        <button id="apply-changes">Прийняти зміни</button>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const moveUpBtn = document.getElementById('move-up');
+        const moveDownBtn = document.getElementById('move-down');
+        const applyChangesBtn = document.getElementById('apply-changes');
+
+        let selectedImage = null;
+
+        gallery.addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                if (selectedImage) {
+                    selectedImage.style.borderColor = '#000';
+                }
+                selectedImage = e.target;
+                selectedImage.style.borderColor = 'red';
+            }
+        });
+
+        moveUpBtn.addEventListener('click', () => {
+            if (selectedImage) {
+                const parent = selectedImage.parentElement;
+                if (parent.previousElementSibling) {
+                    gallery.insertBefore(parent, parent.previousElementSibling);
+                }
+            }
+        });
+
+        moveDownBtn.addEventListener('click', () => {
+            if (selectedImage) {
+                const parent = selectedImage.parentElement;
+                if (parent.nextElementSibling) {
+                    gallery.insertBefore(parent.nextElementSibling, parent);
+                }
+            }
+        });
+
+        applyChangesBtn.addEventListener('click', () => {
+            if (selectedImage) {
+                const width = document.getElementById('width').value;
+                const height = document.getElementById('height').value;
+                const border = document.getElementById('border').value;
+                const altText = document.getElementById('alt-text').value;
+
+                selectedImage.style.width = `${width}px`;
+                selectedImage.style.height = `${height}px`;
+                selectedImage.style.borderWidth = `${border}px`;
+                selectedImage.alt = altText;
+            }
+        });
+    </script>
+</body>
+</html>
